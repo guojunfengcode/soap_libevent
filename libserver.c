@@ -155,7 +155,6 @@ void *library(void *arg)
         g_hash_table_insert(table, key_array[i], book_info[i]->data);
     }
     gint *usr_data;
-    printf("222222222\n");
     while(1) {
         time(&timep);
         p = gmtime(&timep);
@@ -252,7 +251,6 @@ void *library(void *arg)
 	    pthread_mutex_unlock(&lock);
             pthread_cond_signal(&cond);
         }
-    //    sleep(1);
         g_async_queue_unlock(queue);
     }
     for (i = 0; i < 100; i++) {
@@ -275,7 +273,6 @@ char *xml_get_data(xmlNodePtr curNode)
 	    p = 0;
             curdataNode = curNode->xmlChildrenNode;
             while (curdataNode != NULL) {
-                //printf("brother name = %s,     centent = %s\n", curdataNode->name, (char *)xmlNodeGetContent(curdataNode));
                 addinfo[p] = (char *)xmlNodeGetContent(curdataNode);
 		curdataNode = curdataNode->next;
                 p++;		
@@ -329,8 +326,6 @@ void read_cb(struct bufferevent *bev, void *arg)
         printf("the doc is empty.\n");
     
     xml_get_data(curNode);
-    //pthread_mutex_lock(&lock);
-    //pthread_cond_wait(&cond, &lock);
     g_async_queue_lock(queue);
 
     tmp = (gint *)g_new0(gint, 1);
@@ -406,7 +401,6 @@ void listen_cb(struct evconnlistener *listener,	evutil_socket_t fd,
 		struct sockaddr *addr, int len, void *ptr)
 {
     
-    //struct event_base *base = (struct event_base*)ptr;
     struct event_base *base = evconnlistener_get_base(listener);
     struct bufferevent *bev = NULL;
     struct event* ev = NULL;
@@ -439,8 +433,6 @@ int main(void)
 					LEV_OPT_CLOSE_ON_FREE | LEV_OPT_REUSEABLE,
 					-1, (struct sockaddr*)&serv, sizeof(serv));
     pthread_create(&t, NULL, library, NULL);
-    printf("111111111\n");
-    //g_thread_create(library, NULL, 1, NULL);
 
     event_base_dispatch(base);
    
